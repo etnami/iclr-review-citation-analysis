@@ -2,7 +2,7 @@
 
 MSc Data Science coursework (University of Sheffield), Grade: 79 (Distinction). Analyzes 55,906 ICLR paper submissions (2017-2026) using PySpark on Azure Databricks: acceptance patterns, whether reviewer scores predict acceptance, keyword trends, research community clustering, and whether review scores predict real-world citation impact by joining against OpenAlex.
 
-> **Reproducibility note:** this notebook was run on Databricks against two source files (an ICLR submissions parquet file and an OpenAlex JSON export) that aren't included here, so it can't be rerun end-to-end from this repo alone. All numbers below come directly from the notebook's own stored cell outputs (a real executed run, not just the code), so they were verified by reading what Spark actually returned, not by re-running anything myself.
+> **Reproducibility note:** this notebook was run on Azure Databricks against two source files (an ICLR submissions parquet file and an OpenAlex JSON export) that aren't included here, so it can't be rerun end-to-end from this repo. All figures below come from the notebook's stored cell outputs from the original run.
 
 ## Key results
 
@@ -67,7 +67,7 @@ iclr-review-citation-analysis/
 
 1. Requires a Spark environment (this was run on Databricks) with `pyspark.ml` available.
 2. Two source files are expected at Databricks Volume paths (`iclr26v1.parquet` and `openalex.json`, referenced near the top of the notebook) that aren't included in this repo; see Data, below.
-3. The notebook is not divided into strict Q1-Q6 blocks only, each question also has an "EXTENSION" cell that goes beyond the base question (a model, a clustering exercise, a deeper breakdown), plus a handful of sense-check and manual-verification cells at the end that cross-check the headline numbers.
+3. The notebook follows Q1-Q6, and each question also has an 'EXTENSION' cell that goes further.
 
 ## Data
 
@@ -82,12 +82,4 @@ The ICLR submissions dataset and the OpenAlex export are not redistributed here.
 
 ## Verification note
 
-Every number in this README was traced to the specific cell and stored output that produced it, not taken from the write-up's prose. In the process, two real conflicts turned up:
-
-**Q5:** the write-up's own Discussion section states "1,593 of 55,906 ICLR papers have OpenAlex citation data" (matching the notebook's *basic*, non-normalized join), while the notebook's own sense-check and sanity-check cells treat 1,602 (the *normalized and deduplicated* join) as the final answer. Both numbers are real, correctly-computed outputs of different, clearly-commented cells in the same notebook; they just answer a subtly different question (raw title match vs. match after normalizing case/whitespace and keeping only the highest-citation duplicate).
-
-**Q6:** the write-up's Discussion section states "13 papers were identified" (matching the version that uses OpenAlex's own pre-computed citation percentile field and a raw title join), while the notebook's sense-check and sanity-check cells treat 8 (a version that computes its own percentile threshold on the deduplicated Q5 join) as final. Again, both are real outputs of different, deliberately-commented cells, not an error in either one individually, they just disagree with each other on method.
-
-Per the decision made when building this repo, both numbers are presented for each rather than silently picking one, since resolving which method is "more correct" would require a judgement call about ICLR/OpenAlex data matching that belongs to the original coursework's marking, not to a portfolio rebuild.
-
-Everything else (Q1-Q4 and their extensions, the Q5/Q6 citation-analysis figures downstream of the join, the final logistic and linear regression results) had only one implementation each in the notebook and matched the write-up's stated numbers exactly.
+Q5 and Q6 each have two implementations in the notebook that give different answers (1,593 vs 1,602 matched papers; 13 vs 8 low-scored, highly-cited papers), and the coursework write-up and the notebook's own sanity checks disagree on which to treat as final. Both are reported above. I'd treat the normalised, deduplicated join as the more defensible method and the other as a sensitivity check. All other figures had a single implementation and matched the write-up.
