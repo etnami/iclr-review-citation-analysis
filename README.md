@@ -1,6 +1,6 @@
 # ICLR Peer Review Patterns and Citation Impact: A PySpark Big Data Analysis
 
-MSc Data Science coursework (University of Sheffield), Grade: 79 (Distinction). Analyses 55,906 ICLR paper submissions (2017-2026) using PySpark on Databricks serverless: acceptance patterns, whether reviewer scores predict acceptance, keyword trends, research community clustering, and whether review scores predict real-world citation impact by joining against OpenAlex.
+MSc Data Science coursework (University of Sheffield), Grade: 79 (Distinction). Analyses 55,906 ICLR paper submissions (2017-2026) using PySpark on Databricks serverless: acceptance patterns, whether reviewer scores predict acceptance, keyword trends, keyword-based clustering, and whether review scores predict real-world citation impact by joining against OpenAlex.
 
 > **Reproducibility note:** this notebook was run on Databricks against two source files (an ICLR submissions parquet file and an OpenAlex JSON export) that aren't included here, so it can't be rerun end-to-end from this repo. All figures below come from the notebook's stored cell outputs from the original run.
 
@@ -25,7 +25,7 @@ A logistic regression (mean score, score standard deviation, number of reviewers
 
 **Q4, explosively growing keywords:** only 4 keywords went from under 5 mentions to over 50 the following year: `test-time scaling` (3 → 87, 2025 → 2026), `llm` (4 → 76, 2023 → 2024), `large reasoning models` (1 → 57, 2025 → 2026), `spatial reasoning` (3 → 57, 2025 → 2026).
 
-TF-IDF + k-means clustering of papers by keyword profile (k=3, chosen by silhouette score: 0.0581 for k=3 vs. 0.0544 for k=4 and negative for k=5-7) found three research communities: a large general ML/RL/LLM cluster (47,102 papers), an adversarial robustness cluster (3,525 papers, 37.5% acceptance), and a reasoning/LLM cluster (3,148 papers, **44.2% acceptance**, the highest of the three and the fastest-growing).
+TF-IDF + k-means clustering of papers by keyword profile (k=3, chosen by silhouette score: 0.0581 for k=3 vs. 0.0544 for k=4 and negative for k=5-7) found three approximate topic groups: a large general ML/RL/LLM cluster 47,102 papers; 53,775 papers have keywords in total), an adversarial robustness cluster (3,525 papers, 37.5% acceptance), and a reasoning/LLM cluster (3,148 papers, **44.2% acceptance**, the highest of the three and the fastest-growing).
 
 **Q5, matching ICLR papers to OpenAlex citation data:** two different join strategies give two different counts, and the notebook's own write-up and its own sanity checks disagree on which to treat as final. See Verification note below.
 
@@ -34,7 +34,7 @@ TF-IDF + k-means clustering of papers by keyword profile (k=3, chosen by silhoue
 
 Either way, ~70.9% of OpenAlex's own title list matches something in the ICLR data. Match counts drop off sharply after 2021, consistent with newer papers not yet being fully indexed by OpenAlex rather than a data quality problem.
 
-**Citation analysis (Q5 extension):** rejected papers actually average *more* citations (113.0) than accepted papers (78.2), though medians are much closer (25 vs. 22), suggesting the average is skewed by a handful of highly-cited outliers rather than a systematic pattern. The correlation between a paper's mean reviewer score and its eventual citation count is essentially zero (r = 0.0453).
+**Citation analysis (Q5 extension):** rejected papers actually average *more* citations (113.0, n = 241) than accepted papers (78.2, n = 1,315), though medians are much closer (25 vs. 22), suggesting the average is skewed by a handful of highly-cited outliers rather than a systematic pattern. The correlation between a paper's mean reviewer score and its eventual citation count is essentially zero (r = 0.0453).
 
 **Q6, low-scored but highly-cited papers:** same dual-answer situation as Q5. See Verification note.
 
