@@ -58,7 +58,7 @@ A linear regression predicting citation count from review features (mean score, 
 ## Repo structure
 
 ```
-03-iclr-review-citation-analysis/
+iclr-review-citation-analysis/
 ├── README.md                        ← you are here
 └── iclr_bigdata_analysis.ipynb      ← full notebook, including stored outputs from an actual run
 ```
