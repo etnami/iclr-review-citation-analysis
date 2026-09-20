@@ -45,7 +45,7 @@ Only 4 papers appear on both lists. Notable examples either way include "Visuali
 
 A linear regression predicting citation count from review features (mean score, score spread, reviewer count, paper age) explains only **5.5% of citation variance** (R² = 0.0545, RMSE = 169.50). Paper age is by far the strongest predictor (coefficient -57.97, i.e. older papers have accumulated more citations), not review quality.
 
-**The headline finding the coursework is built around:** reviewer scores predict *acceptance* very well (87.1% accuracy) but predict *citation impact* very poorly (5.5% of variance explained). The review process is internally consistent, agreeing with itself about what to accept, but that consistency doesn't carry over to identifying the work the field will end up valuing most.
+**The headline finding the coursework is built around:** reviewer scores predict *acceptance* very well (87.1% accuracy) but predict *citation impact* very poorly (review features plus paper age explain 5.5% of variance in the ~1,600 papers matched to OpenAlex). The review process is internally consistent, agreeing with itself about what to accept, but that consistency doesn't carry over to identifying the work the field will end up valuing most.
 
 ## Methods & tools
 
